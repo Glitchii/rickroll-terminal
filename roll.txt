@@ -24,6 +24,6 @@ roll() {
     else
         [ ! -f ~/.ps1.bk ] && echo "$PS1" > ~/.ps1.bk
         [ -n $PROMPT_COMMAND ] && echo $PROMPT_COMMAND > ~/.pcmd.bk
-        export PROMPT_COMMAND='PS1="\[\033[1;32m\]`rick`\[\033[0m\] [\[\033[1;34m\]\w\[\033[0m\]] \[\033[1;31m\]$\[\033[0m\] "'
+        export PROMPT_COMMAND='PS1="\[\033[1;32m\]`rick`\[\033[0m\] \[\033[1;34m\]\w\[\033[0m\]$ "'
     fi
 }
