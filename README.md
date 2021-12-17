@@ -1,5 +1,5 @@
 # rickroll-terminal
-Changes terminal ps1 to a rickroll after each command.
+Changes name and host in a terminal to a rickroll after a command.
 
 ![GUI image](https://raw.githubusercontent.com/Glitchii/rickroll-terminal/main/assets/terminal.png)
 
