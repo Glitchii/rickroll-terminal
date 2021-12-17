@@ -1,5 +1,5 @@
 mkdir -p ~/.local/bin
-tail -n 59 rick.txt >~/.local/bin/rick && chmod +x ~/.local/bin/rick
+tail -n 59 assets/rick.txt >~/.local/bin/rick && chmod +x ~/.local/bin/rick
 rc=~/.$(basename $SHELL)rc
 
 echo -e "\n\n# Inserted by rickroll-terminal" >> $rc
@@ -7,7 +7,7 @@ if [[ ! "$PATH" =~ "$HOME/.local/bin" ]]; then
     echo -e '\nexport PATH="$HOME/.local/bin:$PATH"' >> $rc
 fi
 
-tail -n 20 roll.txt >>$rc
+tail -n 20 assets/roll.txt >>$rc
 echo "# End of rickroll-terminal" >> $rc
 
 # if [[ ! "$PATH" =~ "$HOME/.local/bin" ]]; then
