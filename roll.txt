@@ -1,0 +1,30 @@
+
+
+
+
+Do not run this file directly. Run setup.sh instead
+
+
+
+
+argmnt() {
+    if [[ $1 =~ ^-[A-Za-z0-9]*$2 ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+# # PS1="\[\e[1;32m\]\u@\h\[\e[0m\] [\[\e[1;34m\]\w\[\e[0m\]] \[\e[1;31m\]$\[\e[0m\] "
+roll() {
+    argmnt $1 c && clear
+    if argmnt $1 r; then
+        [[ -f ~/.ps1.bk && -n `cat ~/.ps1.bk` ]] && export PS1=`cat ~/.ps1.bk`
+        [[ -f ~/.pcmd.bk && -n `cat ~/.pcmd.bk` ]] && export PROMPT_COMMAND=`cat ~/.pcmd.bk` || unset PROMPT_COMMAND
+        rm -f ~/.ps1.bk ~/.pcmd.bk
+    else
+        [ ! -f ~/.ps1.bk ] && echo $PS1 > ~/.ps1.bk
+        [ -n $PROMPT_COMMAND ] && echo $PROMPT_COMMAND > ~/.pcmd.bk
+        export PROMPT_COMMAND='PS1="\[\033[1;32m\]`rick`\[\033[0m\] [\[\033[1;34m\]\w\[\033[0m\]] \[\033[1;31m\]$\[\033[0m\] "'
+    fi
+}
