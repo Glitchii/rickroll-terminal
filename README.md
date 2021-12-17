@@ -1,5 +1,5 @@
 # rickroll-terminal
-Changes terminal ps1 to a rickroll line before command output.
+Changes terminal ps1 to a rickroll after each command.
 
 ###  
 The first time after cloning, cd into `rickroll-terminal` and  run `sh setup.sh`. Run this only once after cloning the repo.
