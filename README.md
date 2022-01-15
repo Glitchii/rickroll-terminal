@@ -1,3 +1,5 @@
+This is for Unix based systems.
+
 # rickroll-terminal
 Changes name and host in a terminal to a rickroll after a command.
 
