@@ -11,7 +11,7 @@ path=\$(realpath "\$0")
 
 # Reset lyrics index to 0 if roll_count is 0
 if [ "\$1" = '-r' ]; then
-    sed -i "s/^roll_count=[0-9]\+\$/roll_count=\$((\$roll_count + 1))/" "\$path"
+    sed -i "s/^roll_count=[0-9]\+\$/roll_count=0/" "\$path"
     exit
 fi
 
@@ -92,14 +92,35 @@ argmnt() {
 }
 
 roll() {
-    argmnt "\$1" c && clear
+    # Reseting to original PS1 and PROMPT_COMMAND
     if argmnt "\$1" r; then
-        [[ -f ~/.ps1.bk && -n \$(cat ~/.ps1.bk) ]] && export PS1=\$(cat ~/.ps1.bk)
-        [[ -f ~/.pcmd.bk && -n \$(cat ~/.pcmd.bk) ]] && export PROMPT_COMMAND=\$(cat ~/.pcmd.bk) || unset PROMPT_COMMAND
+        # Reset PS1 content from ~/.ps1.bk
+        if [[ -f ~/.ps1.bk && -n \$(cat ~/.ps1.bk) ]]; then
+            export PS1=\$(cat ~/.ps1.bk)
+        fi
+
+        # Reset PROMPT_COMMAND from ~/.pcmd.bk
+        if [[ -f ~/.pcmd.bk && -n \$(cat ~/.pcmd.bk) ]]; then
+            export PROMPT_COMMAND=\$(cat ~/.pcmd.bk)
+        else
+            unset PROMPT_COMMAND
+        fi
+
         rm -f ~/.ps1.bk ~/.pcmd.bk
     else
-        [ ! -f ~/.ps1.bk ] && echo "\$PS1" > ~/.ps1.bk
-        [ -n "\$PROMPT_COMMAND" ] && echo "\$PROMPT_COMMAND" > ~/.pcmd.bk
+        # Backup current PS1
+        if [ ! -f ~/.ps1.bk ]; then
+            echo "\$PS1" > ~/.ps1.bk
+        fi
+
+        # Backup current PROMPT_COMMAND
+        if [ -n "\$PROMPT_COMMAND" ]; then
+            echo "\$PROMPT_COMMAND" > ~/.pcmd.bk
+        fi
+
+        # Reset lyrics index whenever 'roll' is called
+        ~/.local/bin/rick -r
+
         export PROMPT_COMMAND='PS1="\[\033[1;32m\]\$(~/.local/bin/rick)\[\033[0m\] \[\033[1;34m\]\w\[\033[0m\]$ "'
     fi
 }
@@ -111,4 +132,4 @@ echo "# End of rickroll-lyrics-PS1" >>$shell_rc_file
 #     export PATH="$HOME/.local/bin:$PATH"
 # fi
 
-echo -e "\e[32mYou can now open a new terminal session (or run 'source $shell_rc_file') then type 'roll'\e[0m"
+echo -e "\e[32mYou can now open a new terminal session and type 'roll'\e[0m"
