@@ -92,7 +92,6 @@ argmnt() {
 }
 
 roll() {
-    # Reseting to original PS1 and PROMPT_COMMAND
     if argmnt "\$1" r; then
         # Reset PS1 content from ~/.ps1.bk
         if [[ -f ~/.ps1.bk && -n \$(cat ~/.ps1.bk) ]]; then
