@@ -60,7 +60,12 @@ lyrics=("Never gonna give you up"
     "Never gonna tell a lie and hurt you")
 
 max="\${#lyrics[@]}"
-[ -t 1 ] && echo "\${lyrics[\$roll_count]}" || echo -n "\${lyrics[\$roll_count]}"
+
+if [ -t 1 ]; then
+    echo "\${lyrics[\$roll_count]}"
+else
+    echo -n "\${lyrics[\$roll_count]}"
+fi
 
 if [[ -n "\${lyrics[\$((\$roll_count + 1))]}" ]]; then
     sed -i "s/^roll_count=[0-9]\+\$/roll_count=\$((\$roll_count + 1))/" "\$path"
