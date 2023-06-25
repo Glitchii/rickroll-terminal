@@ -112,6 +112,8 @@ if argmnt "\$1" r; then
 
     # Remove code added by the script in the shell_rc_file
     sed -i '/^# Inserted by rickroll-lyrics-PS1/,/^# End of rickroll-lyrics-PS1/d' "$shell_rc_file"
+
+    echo "Done. You might need to open a new terminal session"
 else
     # Backup current PS1
     if [ ! -f ~/.ps1.bk ]; then
