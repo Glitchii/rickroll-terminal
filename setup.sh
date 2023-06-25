@@ -108,7 +108,7 @@ if argmnt "\$1" r; then
     fi
 
     # Remove rick script plus PROMPT_COMMAND and PS1 backups
-    rm -f ~/.pcmd.bk ~/.ps1.bk ~/.local/bin/rick ~/.local/bin/roll
+    rm -f ~/.pcmd.bk ~/.ps1.bk
 
     # Remove code added by the script in the shell_rc_file
     sed -i '/^# Inserted by rickroll-lyrics-PS1/,/^# End of rickroll-lyrics-PS1/d' "$shell_rc_file"
