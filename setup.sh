@@ -74,20 +74,20 @@ else
 fi
 EOF
 
-chmod +x ~/.local/bin/rick
-
 # # Determin the shell type (bash, zsh, etc) and thus the right RC file
 # shell_rc_file=~/.$(basename "$SHELL")rc
-
-# Will be using bashrc for now
 shell_rc_file=~/.bashrc
 
-echo -e "\n\n# Inserted by rickroll-lyrics-PS1" >>$shell_rc_file
+echo -e "\n\n# Inserted by rickroll-lyrics-PS1. Don't update" >>$shell_rc_file
+
 if [[ ! "$PATH" =~ "$HOME/.local/bin" ]]; then
-    echo -e '\nexport PATH="$HOME/.local/bin:$PATH"' >>$shell_rc_file
+    export PATH="$HOME/.local/bin:$PATH"
+    echo 'export PATH="$HOME/.local/bin:$PATH"' >>$shell_rc_file
 fi
 
-cat <<EOF >>"$shell_rc_file"
+cat <<EOF >~/.local/bin/roll
+#!/usr/bin/env bash
+
 argmnt() {
     if [[ \$1 =~ ^-\$2 ]]; then
         return 0
@@ -96,44 +96,55 @@ argmnt() {
     fi
 }
 
-roll() {
-    if argmnt "\$1" r; then
-        # Reset PS1 content from ~/.ps1.bk
-        if [[ -f ~/.ps1.bk && -n \$(cat ~/.ps1.bk) ]]; then
-            export PS1=\$(cat ~/.ps1.bk)
-        fi
-
-        # Reset PROMPT_COMMAND from ~/.pcmd.bk
-        if [[ -f ~/.pcmd.bk && -n \$(cat ~/.pcmd.bk) ]]; then
-            export PROMPT_COMMAND=\$(cat ~/.pcmd.bk)
-        else
-            unset PROMPT_COMMAND
-        fi
-
-        rm -f ~/.ps1.bk ~/.pcmd.bk
-    else
-        # Backup current PS1
-        if [ ! -f ~/.ps1.bk ]; then
-            echo "\$PS1" > ~/.ps1.bk
-        fi
-
-        # Backup current PROMPT_COMMAND
-        if [ -n "\$PROMPT_COMMAND" ]; then
-            echo "\$PROMPT_COMMAND" > ~/.pcmd.bk
-        fi
-
-        # Reset lyrics index whenever 'roll' is called
-        ~/.local/bin/rick -r
-
-        export PROMPT_COMMAND='PS1="\[\033[1;32m\]\$(~/.local/bin/rick)\[\033[0m\] \[\033[1;34m\]\w\[\033[0m\]$ "'
+if argmnt "\$1" r; then
+    # Reset PS1 content from ~/.ps1.bk
+    if [ -f ~/.ps1.bk ]; then
+        export PS1="\$(cat ~/.ps1.bk)"
     fi
-}
+
+    # Reset PROMPT_COMMAND from ~/.pcmd.bk
+    if [ -f ~/.pcmd.bk ]; then
+        export PROMPT_COMMAND="\$(cat ~/.pcmd.bk)"
+    fi
+
+    # Remove rick script plus PROMPT_COMMAND and PS1 backups
+    rm -f ~/.pcmd.bk ~/.ps1.bk
+
+    # Remove code added by the script in the shell_rc_file
+    sed -i '/^# Inserted by rickroll-lyrics-PS1/,/^# End of rickroll-lyrics-PS1/d' "$shell_rc_file"
+else
+    # Backup current PS1
+    if [ ! -f ~/.ps1.bk ]; then
+        echo "\$PS1" > ~/.ps1.bk
+    fi
+
+    # Backup current PROMPT_COMMAND
+    if [ -n "\$PROMPT_COMMAND" ]; then
+        echo "\$PROMPT_COMMAND" > ~/.pcmd.bk
+    fi
+
+    # Reset lyrics index whenever 'roll' is called
+    ~/.local/bin/rick -r
+
+    export PROMPT_COMMAND='PS1="\[\033[1;32m\]\$(~/.local/bin/rick)\[\033[0m\] \[\033[1;34m\]\w\[\033[0m\]$ "'
+fi
 EOF
 
+chmod +x ~/.local/bin/rick
+chmod +x ~/.local/bin/roll
+
+echo "# Do not remove or comment the line below, instead run 'source roll -r' to reset to default" >>$shell_rc_file
+echo "source roll" >>$shell_rc_file
 echo "# End of rickroll-lyrics-PS1" >>$shell_rc_file
 
 # if [[ ! "$PATH" =~ "$HOME/.local/bin" ]]; then
 #     export PATH="$HOME/.local/bin:$PATH"
 # fi
 
-echo -e "\e[32mYou can now open a new terminal session and type 'roll'\e[0m"
+# Output sucess message if script is not sourced. Results will be visible if sourced
+if [[ "$(basename -- "$0")" == "setup.sh" ]]; then
+    echo -e "\e[32mYou can now open a new terminal session and type 'roll'\e[0m"
+    exit
+fi
+
+source roll
