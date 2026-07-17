@@ -1,14 +1,26 @@
-# rickroll-lyrics-PS1
-Changes name and host in a terminal to a rickroll after a command.
+# rickroll-terminal
 
-![GUI image](https://raw.githubusercontent.com/Glitchii/rickroll-lyrics-PS1/main/terminal.png)
+A tiny script that turns each Bash or Zsh prompt into the next line of a
+rickroll.
 
-###  
-The first time after cloning, cd into `rickroll-lyrics-PS1` and  run `source setup.sh`. Run this only once after cloning the repo.
-That should simply setup everything for you.
+![Terminal screenshot](https://raw.githubusercontent.com/Glitchii/rickroll-lyrics-PS1/main/terminal.png)
 
-`source roll` starts rickroll if not already started. The `roll` script would have been inserted in '~/.local/bin/' by the setup script.  
-`source roll -r` resets everything.
+## Setup
 
-You can also type `rick` to output a lyric without changing the terminal name or host in a new terminal.
-Use `rick -r` to reset next lyric line index to 0
+From the cloned repo, copy and run this once:
+
+```sh
+mkdir -p ~/.local/bin
+cp rickroll.sh ~/.local/bin/rickroll
+chmod +x ~/.local/bin/rickroll
+
+# Add an alias to the current shell and its rc file.
+printf '\nalias rickroll=". ~/.local/bin/rickroll"\n' >> "$HOME/.${SHELL##*/}rc"
+alias rickroll=". ~/.local/bin/rickroll"
+```
+
+Then you can type `rickroll` to activate in the current terminal or any new one.
+Run `rickroll` again to turn it off. There are no flags.
+
+This intentionally supports Bash and Zsh, the common default shells on Linux
+and macOS.
