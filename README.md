@@ -7,20 +7,19 @@ rickroll.
 
 ## Setup
 
-From the cloned repo, copy and run this once:
+Paste this into your terminal to clone the repo and the setup the script:
 
 ```sh
+git clone https://github.com/Glitchii/rickroll-terminal
+cd rickroll-terminal
+
+rc_file="$HOME/.${SHELL##*/}rc"
 mkdir -p ~/.local/bin
 cp rickroll.sh ~/.local/bin/rickroll
-chmod +x ~/.local/bin/rickroll
 
-# Add an alias to the current shell and its rc file.
-printf '\nalias rickroll=". ~/.local/bin/rickroll"\n' >> "$HOME/.${SHELL##*/}rc"
+printf '\nalias rickroll=". ~/.local/bin/rickroll"\n' >> "$rc_file"
 alias rickroll=". ~/.local/bin/rickroll"
 ```
 
-Then you can type `rickroll` to activate in the current terminal or any new one.
-Run `rickroll` again to turn it off. There are no flags.
-
-This intentionally supports Bash and Zsh, the common default shells on Linux
-and macOS.
+You can now run `rickroll` to turn on or off. The alias is also available in new terminals  
+To turn it on automatically in every new terminal, add `rickroll` your shell rc file. Run `echo "$rc_file"` to see your rc file used
