@@ -23,5 +23,5 @@ alias rickroll=". ~/.local/bin/rickroll" roll=rickroll
 
 You can now run `rickroll` or `roll` to activate or deactivate it. Both aliases
 are also available in new terminals.
-
-To activate automatically in every new terminal, add the `rickroll` to your shell rc file. Run `echo "$HOME/.${SHELL##*/}rc"` to see the shell rc file used
+To activate automatically in every new terminal, add the `rickroll` to your shell rc file.
+Run `echo "$HOME/.${SHELL##*/}rc"` to see the shell rc file used
