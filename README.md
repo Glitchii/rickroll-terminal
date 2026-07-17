@@ -7,7 +7,7 @@ rickroll.
 
 ## Setup
 
-Paste this into your terminal just once to clone the repo and setup the script:
+Paste this into your terminal just once to clone the repo and set up the script:
 
 ```sh
 git clone https://github.com/Glitchii/rickroll-terminal
@@ -17,9 +17,11 @@ rc_file="$HOME/.${SHELL##*/}rc"
 mkdir -p ~/.local/bin
 cp rickroll.sh ~/.local/bin/rickroll
 
-printf '\nalias rickroll=". ~/.local/bin/rickroll"\n' >> "$rc_file"
-alias rickroll=". ~/.local/bin/rickroll"
+printf '\nalias rickroll=". ~/.local/bin/rickroll" roll=rickroll\n' >> "$rc_file"
+alias rickroll=". ~/.local/bin/rickroll" roll=rickroll
 ```
 
-You can from now on run `rickroll` to activate or deactivate. The alias is also available in new terminals.  
-To activate automatically in every new terminal, write `rickroll` in your shell rc file. Run `echo "$rc_file"` to see the rc file used
+You can now run `rickroll` or `roll` to activate or deactivate it. Both aliases
+are also available in new terminals.
+
+To activate automatically in every new terminal, add the `rickroll` to your shell rc file. Run `echo "$HOME/.${SHELL##*/}rc"` to see the shell rc file used
